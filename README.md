@@ -22,6 +22,15 @@ Each `AccelerometerData` has this structure:
 data class AccelerometerData(val x: Double, val y: Double, val z: Double)
 ```
 
+## Supported Platforms
+
+- iOS
+- Android
+
+## Installing
+
+
+
 ## Usage
 
 For usage you can refer to the two examples you can find in `iOSApp` and `AndroidApp`.
