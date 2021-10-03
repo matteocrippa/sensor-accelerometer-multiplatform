@@ -1,6 +1,6 @@
 # Kotlin Mobile Multiplatform Accelerometer Sensors Library
 
-This library allows you to get a `Flow` from your Android or iOS (only in main thread) data from accelerometers.
+This library allows you to get a `Flow` from your Android or iOS (only on _main thread_) data from accelerometers.
 
 Application exposes a custom model `SensorData` that exposes:
 
