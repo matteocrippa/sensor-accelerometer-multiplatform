@@ -6,6 +6,9 @@ plugins {
     id("maven-publish")
 }
 
+group = "it.matteocrippa.sensors.multiplatform"
+version = "0.0.1"
+
 kotlin {
     android()
 
