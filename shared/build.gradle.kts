@@ -11,7 +11,7 @@ version = "0.0.1"
 
 kotlin {
     android {
-        publishLibraryVariants("release")
+        publishLibraryVariants("release", "debug")
         publishLibraryVariantsGroupedByFlavor = true
     }
 
