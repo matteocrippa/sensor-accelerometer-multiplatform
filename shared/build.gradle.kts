@@ -10,7 +10,10 @@ group = "it.matteocrippa.sensors.multiplatform"
 version = "0.0.1"
 
 kotlin {
-    android()
+    android {
+        publishLibraryVariants("release")
+        publishLibraryVariantsGroupedByFlavor = true
+    }
 
     val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget = when {
         System.getenv("SDK_NAME")?.startsWith("iphoneos") == true -> ::iosArm64
