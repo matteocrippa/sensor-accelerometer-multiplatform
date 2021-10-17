@@ -7,7 +7,8 @@ data class SensorData(
     val gravity: AccelerometerData? = null
 )
 
-expect class Sensors {
+expect class Sensors(activity: CommonActivity? = null) {
+    val activity: CommonActivity?
     val data: CommonFlow<SensorData?>
     val isEnabled: Boolean
     fun start()

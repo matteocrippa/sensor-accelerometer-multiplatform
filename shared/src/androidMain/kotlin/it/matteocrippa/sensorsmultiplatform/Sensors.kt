@@ -1,6 +1,5 @@
 package it.matteocrippa.sensorsmultiplatform
 
-import android.app.Activity
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
@@ -8,10 +7,11 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import kotlinx.coroutines.flow.MutableStateFlow
 
-actual class Sensors(activity: Activity) : SensorEventListener {
+actual class Sensors actual constructor(actual val activity: CommonActivity?) :
+    SensorEventListener {
 
     private var mSensorManager: SensorManager =
-        activity.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        activity?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
     private var sAccelerometer: Sensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
     private var sGravity: Sensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)

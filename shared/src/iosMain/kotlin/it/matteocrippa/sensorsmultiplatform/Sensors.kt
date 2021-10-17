@@ -12,7 +12,7 @@ import platform.CoreMotion.CMDeviceMotion
 import platform.CoreMotion.CMMotionManager
 import platform.Foundation.NSOperationQueue
 
-actual class Sensors {
+actual class Sensors actual constructor(actual val activity: CommonActivity?) {
     private var _data = Channel<SensorData?>(Channel.BUFFERED)
 
     actual val data: CommonFlow<SensorData?>

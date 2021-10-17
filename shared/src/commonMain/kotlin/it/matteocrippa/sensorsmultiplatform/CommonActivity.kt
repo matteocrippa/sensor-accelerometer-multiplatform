@@ -1,0 +1,3 @@
+package it.matteocrippa.sensorsmultiplatform
+
+expect class CommonActivity
