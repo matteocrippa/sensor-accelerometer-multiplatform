@@ -12,13 +12,13 @@ import platform.CoreMotion.CMDeviceMotion
 import platform.CoreMotion.CMMotionManager
 import platform.Foundation.NSOperationQueue
 
-actual class Sensors actual constructor(actual val activity: CommonActivity?) {
-    private var _data = Channel<SensorData?>(Channel.BUFFERED)
+actual class Sensors : SensorInterface {
+    private var _data = Channel<SensorDataInterface?>(Channel.BUFFERED)
 
-    actual val data: CommonFlow<SensorData?>
+    actual override val data: CommonFlow<SensorDataInterface?>
         get() = _data.consumeAsFlow().asCommonFlow()
     private var _isEnabled = false
-    actual val isEnabled: Boolean
+    actual override val isEnabled: Boolean
         get() = _isEnabled
 
     private val scope = CoroutineScope(UIDispatcher())
@@ -27,7 +27,7 @@ actual class Sensors actual constructor(actual val activity: CommonActivity?) {
         deviceMotionUpdateInterval = 20 / 1000.0
     }
 
-    actual fun start() {
+    actual override fun start() {
         _isEnabled = true
         manager.startDeviceMotionUpdatesUsingReferenceFrame(
             CMAttitudeReferenceFrameXMagneticNorthZVertical, queue
@@ -44,12 +44,12 @@ actual class Sensors actual constructor(actual val activity: CommonActivity?) {
         }
     }
 
-    actual fun stop() {
+    actual override fun stop() {
         _isEnabled = false
         manager.stopDeviceMotionUpdates()
     }
 
-    private fun convertIntoSensorData(motion: CMDeviceMotion?): SensorData? {
+    private fun convertIntoSensorData(motion: CMDeviceMotion?): SensorDataInterface? {
         if (motion == null) return null
         val user = motion.userAcceleration
         val gravity = motion.gravity
@@ -57,7 +57,7 @@ actual class Sensors actual constructor(actual val activity: CommonActivity?) {
         return SensorData(heading, convertAcceleration(user), convertAcceleration(gravity))
     }
 
-    private fun convertAcceleration(acceleration: CValue<CMAcceleration>): AccelerometerData {
+    private fun convertAcceleration(acceleration: CValue<CMAcceleration>): AccelerometerInterface {
         acceleration.useContents {
             return AccelerometerData(this.x, this.y, this.z)
         }

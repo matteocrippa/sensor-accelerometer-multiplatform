@@ -7,16 +7,17 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import kotlinx.coroutines.flow.MutableStateFlow
 
-actual class Sensors actual constructor(actual val activity: CommonActivity?) :
-    SensorEventListener {
+actual class Sensors constructor(context: Context) :
+    SensorEventListener, SensorInterface {
 
-    private var mSensorManager: SensorManager =
-        activity?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    private var mSensorManager: SensorManager? =
+        context.getSystemService(Context.SENSOR_SERVICE) as? SensorManager
 
-    private var sAccelerometer: Sensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-    private var sGravity: Sensor = mSensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY)
-    private var sMagnetic: Sensor = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
-    private var sRotation: Sensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
+    private var sAccelerometer: Sensor? =
+        mSensorManager?.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+    private var sGravity: Sensor? = mSensorManager?.getDefaultSensor(Sensor.TYPE_GRAVITY)
+    private var sMagnetic: Sensor? = mSensorManager?.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
+    private var sRotation: Sensor? = mSensorManager?.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
 
     private var rawAccelerometer: FloatArray? = null
     private var rawRotation: FloatArray? = null
@@ -27,27 +28,27 @@ actual class Sensors actual constructor(actual val activity: CommonActivity?) :
     private var heading: Double = 0.0
 
     private var _isEnabled = false
-    actual val isEnabled: Boolean
+    actual override val isEnabled: Boolean
         get() = _isEnabled
 
     private var _data = MutableStateFlow<SensorData?>(null)
-    actual val data: CommonFlow<SensorData?>
+    actual override val data: CommonFlow<SensorDataInterface?>
         get() = _data.asCommonFlow()
 
-    actual fun start() {
+    actual override fun start() {
         _isEnabled = true
-        mSensorManager.registerListener(this, sAccelerometer, SensorManager.SENSOR_DELAY_NORMAL)
-        mSensorManager.registerListener(this, sGravity, SensorManager.SENSOR_DELAY_NORMAL)
-        mSensorManager.registerListener(this, sMagnetic, SensorManager.SENSOR_DELAY_NORMAL)
-        mSensorManager.registerListener(this, sRotation, SensorManager.SENSOR_DELAY_NORMAL)
+        mSensorManager?.registerListener(this, sAccelerometer, SensorManager.SENSOR_DELAY_NORMAL)
+        mSensorManager?.registerListener(this, sGravity, SensorManager.SENSOR_DELAY_NORMAL)
+        mSensorManager?.registerListener(this, sMagnetic, SensorManager.SENSOR_DELAY_NORMAL)
+        mSensorManager?.registerListener(this, sRotation, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
-    actual fun stop() {
+    actual override fun stop() {
         _isEnabled = false
-        mSensorManager.unregisterListener(this, sAccelerometer)
-        mSensorManager.unregisterListener(this, sGravity)
-        mSensorManager.unregisterListener(this, sMagnetic)
-        mSensorManager.unregisterListener(this, sRotation)
+        mSensorManager?.unregisterListener(this, sAccelerometer)
+        mSensorManager?.unregisterListener(this, sGravity)
+        mSensorManager?.unregisterListener(this, sMagnetic)
+        mSensorManager?.unregisterListener(this, sRotation)
     }
 
     override fun onSensorChanged(p0: SensorEvent?) {
