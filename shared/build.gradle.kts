@@ -30,7 +30,7 @@ kotlin {
     }
 
     val coroutinesVersion = "1.5.2-native-mt"
-    val ktorVersion = "1.6.2"
+    val ktorVersion = "1.6.5"
 
     sourceSets {
         val commonMain by getting {
